@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
     public ErrorResponse handleNotFoundException(NotFoundException e) {
-        log.error(e.getMessage());
+   //     log.error(e.getMessage());
         return new ErrorResponse(404, e.getMessage());
     }
 
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorResponse handlerException(HandlerException e) {
-        log.error(e.getMessage());
+      //  log.error(e.getMessage());
         return new ErrorResponse(400, e.getMessage());
     }
 

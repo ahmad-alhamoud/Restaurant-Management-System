@@ -1,5 +1,6 @@
 package com.ahmad.restaurant_mangament_system.model;
 
+import com.ahmad.restaurant_mangament_system.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 

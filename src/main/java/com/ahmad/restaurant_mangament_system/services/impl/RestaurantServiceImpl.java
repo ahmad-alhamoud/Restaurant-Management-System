@@ -85,7 +85,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     public void isRestaurantNotExists(Integer restaurantId) {
-        if (restaurantRepository.findById(restaurantId).isPresent()) {
+        if (restaurantRepository.findById(restaurantId).isEmpty()) {
             throw new NotFoundException(HttpStatus.NOT_FOUND.value(), ErrorMessage.RESTAURANT_NOT_FOUND.getMessage());
         }
     }

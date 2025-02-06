@@ -42,7 +42,7 @@ public class Restaurant extends BaseEntity {
     private LocalTime closingTime;
 
     @OneToMany(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "restaruant_id")
+    @JoinColumn(name = "restaurant_id")
     private List<Address> addresses;
 
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)

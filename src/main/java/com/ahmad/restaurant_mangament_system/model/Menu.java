@@ -9,6 +9,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @EqualsAndHashCode(callSuper = false)
 public class Menu extends BaseEntity {
 

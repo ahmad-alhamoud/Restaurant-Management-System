@@ -10,7 +10,8 @@ import java.time.LocalTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RestaurantRequest {
+public class UpdateRestaurantRequest {
+    private Integer id;
     private String name;
     private String description;
     private Status status;

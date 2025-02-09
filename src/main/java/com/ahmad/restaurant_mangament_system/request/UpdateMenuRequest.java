@@ -7,13 +7,11 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MenuItemRequest {
-
-    private String title;
-    private String ingredients;
-    private Double price;
-    private Integer quantity;
-    private Integer menuId;
+public class UpdateMenuRequest {
+    private Integer id;
+    private String name;
+    private String description;
+    private Integer restaurantId;
     private String createdBy;
     private String updatedBy;
 }

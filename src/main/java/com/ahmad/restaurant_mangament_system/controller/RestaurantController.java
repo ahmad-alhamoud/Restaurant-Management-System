@@ -1,6 +1,7 @@
 package com.ahmad.restaurant_mangament_system.controller;
 
 import com.ahmad.restaurant_mangament_system.request.RestaurantRequest;
+import com.ahmad.restaurant_mangament_system.request.UpdateRestaurantRequest;
 import com.ahmad.restaurant_mangament_system.response.RestaurantResponse;
 import com.ahmad.restaurant_mangament_system.services.RestaurantService;
 import com.ahmad.restaurant_mangament_system.util.MapperUtil;
@@ -27,7 +28,7 @@ public class RestaurantController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<RestaurantResponse> updateRestaurant(@RequestBody RestaurantRequest request) {
+    public ResponseEntity<RestaurantResponse> updateRestaurant(@RequestBody UpdateRestaurantRequest request) {
         RestaurantResponse response = mapper.mapEntity(restaurantService.updateRestaurant(request), RestaurantResponse.class);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }

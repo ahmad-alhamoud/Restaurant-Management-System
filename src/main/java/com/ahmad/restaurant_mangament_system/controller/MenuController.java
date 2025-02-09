@@ -75,7 +75,7 @@ public class MenuController {
                 + "' is deleted successfully", OK);
     }
 
-    @GetMapping("/searchByTitle/{title}")
+    @GetMapping("/searchByTitle")
     public ResponseEntity<List<MenuItemResponse>> findMenuItemByTitle(@RequestParam String title) {
         List<MenuItemResponse> responseList = mapper.mapList(menuService.findMenuItemByTitle(title), MenuItemResponse.class);
         return new ResponseEntity<>(responseList, OK);

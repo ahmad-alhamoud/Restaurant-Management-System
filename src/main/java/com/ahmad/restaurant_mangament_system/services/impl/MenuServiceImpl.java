@@ -31,8 +31,7 @@ public class MenuServiceImpl implements MenuService {
     @Transactional
     @Override
     public Menu addMenu(MenuRequest menuRequest) {
-        // TODO : Should not Send the id
-        // isMenuExists(menuRequest.getId());
+
         Restaurant restaurant = restaurantRepository.findById(menuRequest.getRestaurantId()).get();
         Menu menu = buildMenu(menuRequest);
         menu.setRestaurant(restaurant);
@@ -45,7 +44,6 @@ public class MenuServiceImpl implements MenuService {
 
     Menu buildMenu(MenuRequest menuRequest) {
         return Menu.builder()
-                // .id(menuRequest.getId())
                 .name(menuRequest.getName())
                 .description(menuRequest.getDescription())
                 .build();
@@ -54,7 +52,7 @@ public class MenuServiceImpl implements MenuService {
     @Transactional
     @Override
     public MenuItem addMenuItem(MenuItemRequest menuItemRequest) {
-        isMenuItemExists(menuItemRequest.getId());
+       // isMenuItemExists(menuItemRequest.getId());
         Menu menu = menuRepository.findById(menuItemRequest.getMenuId()).get();
         MenuItem menuItem = buildMenuItem(menuItemRequest);
         menuItem.setMenu(menu);
@@ -67,7 +65,6 @@ public class MenuServiceImpl implements MenuService {
 
     private MenuItem buildMenuItem(MenuItemRequest menuItemRequest) {
         return MenuItem.builder()
-                .id(menuItemRequest.getId())
                 .title(menuItemRequest.getTitle())
                 .price(menuItemRequest.getPrice())
                 .ingredients(menuItemRequest.getIngredients())
@@ -85,6 +82,7 @@ public class MenuServiceImpl implements MenuService {
         return menuItemRepository.save(updatedMenuItem);
     }
 
+    @Transactional
     @Override
     public void deleteMenu(Integer menuId) {
         clearMenu(menuId);
@@ -92,18 +90,25 @@ public class MenuServiceImpl implements MenuService {
         menuRepository.delete(menu);
     }
 
+    @Transactional
     @Override
     public void clearMenu(Integer menuId) {
-        isMenuExists(menuId);
+        isMenuNotExists(menuId);
         Menu menu = menuRepository.findById(menuId).get();
         menuItemRepository.deleteMenuItemsByMenu(menu);
     }
-
+    @Transactional
     @Override
     public void deleteMenuItem(Integer menuItemId) {
-        isMenuItemExists(menuItemId);
+        isMeunItemNotExists(menuItemId);
         MenuItem menuItem = menuItemRepository.findById(menuItemId).get();
         menuItemRepository.delete(menuItem);
+    }
+
+    public void isMeunItemNotExists(Integer menuItemId) {
+        if (menuItemRepository.findById(menuItemId).isEmpty()) {
+            throw new NotFoundException(HttpStatus.FORBIDDEN.value(),ErrorMessage.MENU_ITEM_NOT_FOUND.name());
+        }
     }
 
     @Override

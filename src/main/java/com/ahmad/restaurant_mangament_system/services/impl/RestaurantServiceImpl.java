@@ -6,6 +6,7 @@ import com.ahmad.restaurant_mangament_system.exception.NotFoundException;
 import com.ahmad.restaurant_mangament_system.model.Restaurant;
 import com.ahmad.restaurant_mangament_system.repository.RestaurantRepository;
 import com.ahmad.restaurant_mangament_system.request.RestaurantRequest;
+import com.ahmad.restaurant_mangament_system.request.UpdateRestaurantRequest;
 import com.ahmad.restaurant_mangament_system.services.RestaurantService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -26,13 +27,29 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public Restaurant addNewRestaurant(RestaurantRequest restaurantRequest) {
         isRestaurantExists(restaurantRequest.getName());
-        Restaurant restaurant = buildRestaurant(restaurantRequest);
+        Restaurant restaurant = buildNewRestaurant(restaurantRequest);
         restaurant.setCreationTime(dateTime);
 
         return restaurantRepository.save(restaurant);
     }
 
-    Restaurant buildRestaurant(RestaurantRequest restaurantRequest) {
+    Restaurant buildNewRestaurant(RestaurantRequest restaurantRequest) {
+        Restaurant restaurant = Restaurant.builder()
+                .name(restaurantRequest.getName())
+                .description(restaurantRequest.getDescription())
+                .location(restaurantRequest.getLocation())
+                .openingTime(restaurantRequest.getOpeningTime())
+                .closingTime(restaurantRequest.getClosingTime())
+                .restaurantStatus(restaurantRequest.getStatus())
+                .build();
+
+        restaurant.setCreatedBy(restaurantRequest.getCreatedBy());
+        restaurant.setUpdatedBy(restaurantRequest.getUpdatedBy());
+
+        return restaurant;
+    }
+
+    Restaurant buildUpdatedRestaurant(UpdateRestaurantRequest restaurantRequest) {
         Restaurant restaurant = Restaurant.builder()
                 .id(restaurantRequest.getId())
                 .name(restaurantRequest.getName())
@@ -51,9 +68,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     @Transactional
-    public Restaurant updateRestaurant(RestaurantRequest restaurantRequest) {
-        isRestaurantNotExists(restaurantRequest.getId());
-        Restaurant restaurant = buildRestaurant(restaurantRequest);
+    public Restaurant updateRestaurant(UpdateRestaurantRequest updateRestaurantRequest) {
+        isRestaurantNotExists(updateRestaurantRequest.getId());
+        Restaurant restaurant = buildUpdatedRestaurant(updateRestaurantRequest);
         restaurant.setLastUpdatedTime(dateTime);
 
         return restaurantRepository.save(restaurant);
